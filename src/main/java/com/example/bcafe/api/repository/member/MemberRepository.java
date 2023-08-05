@@ -1,4 +1,7 @@
 package com.example.bcafe.api.repository.member;
 
-public class MemberRepository {
+import com.example.bcafe.entity.member.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberRepository extends JpaRepository<Member,Long> {
 }
