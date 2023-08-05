@@ -1,6 +1,7 @@
 package com.example.bcafe.api.controller.member;
 
 import com.example.bcafe.api.controller.member.request.MemberCreateRequest;
+import com.example.bcafe.api.controller.member.request.MemberDeleteRequest;
 import com.example.bcafe.api.service.member.MemberService;
 import com.example.bcafe.enums.CodeEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,7 +44,7 @@ class MemberApiControllerTest {
                 .build();
 
         //when //then
-        mockMvc.perform(post("/api/member/new")
+        mockMvc.perform(post("/api/member/create")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
