@@ -53,4 +53,22 @@ class MemberApiControllerTest {
         ;
     }
 
+    @DisplayName("회원 정보를 삭제한다")
+    @Test
+    void remove_member() throws Exception {
+        //given
+        MemberDeleteRequest request = MemberDeleteRequest.builder()
+                .phoneNumber("010-1111-2222")
+                .build();
+
+        //when //then
+        mockMvc.perform(delete("/api/member/delete")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(jsonPath("$.code").value(CodeEnum.SUCCESS.getCode()))
+        ;
+    }
+
 }

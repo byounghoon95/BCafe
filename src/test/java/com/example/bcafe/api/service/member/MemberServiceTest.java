@@ -1,6 +1,8 @@
 package com.example.bcafe.api.service.member;
 
 import com.example.bcafe.api.service.member.request.MemberCreateServiceRequest;
+import com.example.bcafe.api.service.member.request.MemberDeleteServiceRequest;
+import com.example.bcafe.api.service.member.response.MemberDeleteResponse;
 import com.example.bcafe.api.service.member.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,5 +34,21 @@ class MemberServiceTest {
         assertNotNull(response);
         assertEquals("이병훈", response.getName());
         assertEquals(29, response.getAge());
+    }
+
+    @DisplayName("회원 정보를 삭제한다")
+    @Test
+    void delete_member() {
+        //given
+        MemberDeleteServiceRequest request = MemberDeleteServiceRequest.builder()
+                .phoneNumber("010-1111-2222")
+                .build();
+
+        //when
+        MemberDeleteResponse response = memberService.deleteMember(request);
+
+        //then
+        assertNotNull(response);
+        assertEquals("010-1111-2222", response.getPhoneNumber());
     }
 }
