@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/product")
 @RequiredArgsConstructor
 @RestController
-public class ProductController {
+public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping("/create")
