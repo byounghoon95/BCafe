@@ -19,12 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 class MemberApiControllerTest extends CommonControllerTest {
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-    @MockBean
-    MemberService memberService;
 
     @DisplayName("새로운 회원 정보를 등록한다")
     @Test
