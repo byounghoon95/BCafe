@@ -2,6 +2,7 @@ package com.example.bcafe.api.service.product;
 
 import com.example.bcafe.api.repository.product.ProductRepository;
 import com.example.bcafe.api.service.product.request.ProductCreateServiceRequest;
+import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import com.example.bcafe.api.service.product.response.ProductResponse;
 import com.example.bcafe.entity.product.Product;
 import org.junit.jupiter.api.DisplayName;
@@ -117,6 +118,26 @@ class ProductServiceTest {
 
         //then
         assertThat(response.getProductCode()).isEqualTo("P" + nextNumber);
+    }
+
+    @DisplayName("등록된 상품의 정보를 수정한다")
+    @Test
+    void update_product() {
+        // given
+        createProducts();
+        ProductUpdateServiceRequest serviceRequest = ProductUpdateServiceRequest.builder()
+                .name("아메리카노1")
+                .price(8000)
+                .build();
+
+        // when
+        ProductResponse response = productService.updateProduct("P00001", serviceRequest);
+
+        //then
+        assertThat(response).isNotNull();
+        assertThat(response.getProductCode()).isEqualTo("P00001");
+        assertThat(response.getName()).isEqualTo("아메리카노1");
+        assertThat(response.getPrice()).isEqualTo(8000);
     }
 
 }

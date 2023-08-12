@@ -46,4 +46,18 @@ class ProductRepositoryTest {
         assertThat(latestProductCode).isEqualTo("P00003");
     }
 
+    @DisplayName("상품 코드로 하나의 상품을 조회한다")
+    @Test
+    void find_by_product_code() {
+        // given
+        createProducts();
+
+        // when
+        Product findProduct = productRepository.findByProductCode("P00001").get();
+
+        // then
+        assertThat(findProduct).isNotNull();
+        assertThat(findProduct.getProductCode()).isEqualTo("P00001");
+    }
+
 }

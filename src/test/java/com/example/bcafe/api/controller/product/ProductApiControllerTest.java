@@ -72,4 +72,20 @@ class ProductApiControllerTest extends CommonControllerTest {
         ;
     }
 
+    @DisplayName("등록된 상품을 수정한다")
+    @Test
+    void update_product() throws Exception {
+        //given
+        ProductCreateRequest request = createRequest();
+        String productCode = "P00001";
+
+        //when //then
+        mockMvc.perform(post("/api/product/update/" + productCode)
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(jsonPath("$.code").value("0000"));
+    }
+
 }
