@@ -1,5 +1,6 @@
 package com.example.bcafe.entity.product;
 
+import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import com.example.bcafe.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,5 +38,11 @@ public class Product extends BaseEntity {
         this.productCode = productCode;
         this.name = name;
         this.price = price;
+    }
+
+    public Product updateProduct(ProductUpdateServiceRequest request) {
+        if (request.getName() != null) this.name = request.getName();
+        if (request.getPrice() != 0) this.price = request.getPrice();
+        return this;
     }
 }

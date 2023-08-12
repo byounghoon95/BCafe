@@ -2,8 +2,11 @@ package com.example.bcafe.api.service.product;
 
 import com.example.bcafe.api.repository.product.ProductRepository;
 import com.example.bcafe.api.service.product.request.ProductCreateServiceRequest;
+import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import com.example.bcafe.api.service.product.response.ProductResponse;
 import com.example.bcafe.entity.product.Product;
+import com.example.bcafe.enums.CodeEnum;
+import com.example.bcafe.exception.CustomException;
 import com.example.bcafe.utils.CodeGenerateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +28,12 @@ public class ProductService {
         return ProductResponse.of(savedProduct);
     }
 
+    @Transactional
+    public ProductResponse updateProduct(String productCode, ProductUpdateServiceRequest request) {
+        Product findProduct = productRepository.findByProductCode(productCode).orElseThrow(() -> new CustomException(CodeEnum.PRODUCT_NOTFOUND));
+        findProduct.updateProduct(request);
+
+        return ProductResponse.of(findProduct);
+    }
 
 }
