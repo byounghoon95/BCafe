@@ -1,6 +1,7 @@
 package com.example.bcafe.api.service.product.request;
 
 import com.example.bcafe.entity.product.Product;
+import com.example.bcafe.entity.stock.Stock;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,13 @@ public class ProductCreateServiceRequest {
                 .productCode(nextProductId)
                 .name(name)
                 .price(price)
+                .build();
+    }
+
+    public Stock toStockEntity(String nextProductId) {
+        return Stock.builder()
+                .productCode(nextProductId)
+                .quantity(quantity)
                 .build();
     }
 
