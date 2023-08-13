@@ -47,6 +47,7 @@ public class Order extends BaseEntity {
     private Order(Member member, List<Product> products, LocalDateTime registeredDateTime) {
         this.member = member;
         this.registeredDateTime = registeredDateTime;
+        this.totalPrice = calculateTotalPrice(products);
         this.orderProducts = products.stream()
                 .map(product -> new OrderProduct(this, product))
                 .collect(Collectors.toList());
@@ -58,6 +59,13 @@ public class Order extends BaseEntity {
                 .member(member)
                 .registeredDateTime(registeredDateTime)
                 .build();
+    }
+
+    private int calculateTotalPrice(List<Product> products) {
+        int totalPrice = products.stream()
+                .mapToInt(Product::getPrice)
+                .sum();
+        return totalPrice;
     }
 
 }
