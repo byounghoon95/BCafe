@@ -5,6 +5,7 @@ import com.example.bcafe.api.repository.stock.StockRepository;
 import com.example.bcafe.api.service.product.request.ProductCreateServiceRequest;
 import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import com.example.bcafe.api.service.product.response.ProductResponse;
+import com.example.bcafe.api.service.product.response.ProductUpdateResponse;
 import com.example.bcafe.entity.product.Product;
 import com.example.bcafe.entity.stock.Stock;
 import com.example.bcafe.enums.CodeEnum;
@@ -35,14 +36,14 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateProduct(String productCode, ProductUpdateServiceRequest request) {
+    public ProductUpdateResponse updateProduct(String productCode, ProductUpdateServiceRequest request) {
         Product findProduct = productRepository.findByProductCode(productCode).orElseThrow(() -> new CustomException(CodeEnum.PRODUCT_NOTFOUND));
         findProduct.updateProduct(request);
 
         Stock findProductStock = stockRepository.findByProductCode(productCode);
         findProductStock.updateQuantity(request);
 
-        return ProductResponse.of(findProduct);
+        return ProductUpdateResponse.of(findProduct,request.getQuantity());
     }
 
 }

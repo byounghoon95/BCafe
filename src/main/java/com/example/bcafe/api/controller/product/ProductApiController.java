@@ -5,6 +5,7 @@ import com.example.bcafe.api.controller.product.request.ProductCreateRequest;
 import com.example.bcafe.api.controller.product.request.ProductUpdateRequest;
 import com.example.bcafe.api.service.product.ProductService;
 import com.example.bcafe.api.service.product.response.ProductResponse;
+import com.example.bcafe.api.service.product.response.ProductUpdateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class ProductApiController {
     }
 
     @PostMapping("/update/{productCode}")
-    private CommonResponse<ProductResponse> updateProduct(
+    private CommonResponse<ProductUpdateResponse> updateProduct(
             @Valid @RequestBody ProductUpdateRequest request,
             @PathVariable String productCode
     ) {
