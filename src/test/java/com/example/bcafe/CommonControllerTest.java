@@ -1,8 +1,10 @@
 package com.example.bcafe;
 
 import com.example.bcafe.api.controller.member.MemberApiController;
+import com.example.bcafe.api.controller.order.OrderApiController;
 import com.example.bcafe.api.controller.product.ProductApiController;
 import com.example.bcafe.api.service.member.MemberService;
+import com.example.bcafe.api.service.order.OrderService;
 import com.example.bcafe.api.service.product.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = {
         ProductApiController.class,
         MemberApiController.class,
+        OrderApiController.class,
 })
 public abstract class CommonControllerTest {
     @Autowired
@@ -25,4 +28,6 @@ public abstract class CommonControllerTest {
     protected ProductService productService;
     @MockBean
     protected MemberService memberService;
+    @MockBean
+    protected OrderService orderService;
 }
