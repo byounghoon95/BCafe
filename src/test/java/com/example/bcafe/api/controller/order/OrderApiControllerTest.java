@@ -18,10 +18,7 @@ class OrderApiControllerTest extends CommonControllerTest {
     @Test
     void create_order() throws Exception {
         // given
-        OrderCreateRequest request = OrderCreateRequest.builder()
-                .productCodes(List.of("P00001"))
-                .phoneNumber("010-1111-2222")
-                .build();
+        OrderCreateRequest request = orderCreateRequest();
 
         // when // then
         mockMvc.perform(

@@ -12,18 +12,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProductApiControllerTest extends CommonControllerTest {
 
-    private ProductCreateRequest createRequest() {
-        return ProductCreateRequest.builder()
-                .name("아메리카노")
-                .price(5000)
-                .build();
-    }
-
     @DisplayName("신규 상품을 등록한다")
     @Test
     void create_product() throws Exception {
         //given
-        ProductCreateRequest request = createRequest();
+        ProductCreateRequest request = productCreateRequest();
+
         //when //then
         mockMvc.perform(post("/api/product/create")
                         .content(objectMapper.writeValueAsString(request))
@@ -37,9 +31,7 @@ class ProductApiControllerTest extends CommonControllerTest {
     @Test
     void create_product_without_name() throws Exception {
         // given
-        ProductCreateRequest request = ProductCreateRequest.builder()
-                .price(5000)
-                .build();
+        ProductCreateRequest request = productCreateNoNameRequest();
 
         // when // then
         mockMvc.perform(post("/api/product/create")
@@ -56,10 +48,7 @@ class ProductApiControllerTest extends CommonControllerTest {
     @Test
     void create_product_price_with_not_positive() throws Exception {
         // given
-        ProductCreateRequest request = ProductCreateRequest.builder()
-                .name("아메리카노")
-                .price(0)
-                .build();
+        ProductCreateRequest request = productCreate0PriceRequest();
 
         // when // then
         mockMvc.perform(post("/api/product/create")
@@ -76,7 +65,7 @@ class ProductApiControllerTest extends CommonControllerTest {
     @Test
     void update_product() throws Exception {
         //given
-        ProductCreateRequest request = createRequest();
+        ProductCreateRequest request = productCreateRequest();
         String productCode = "P00001";
 
         //when //then
