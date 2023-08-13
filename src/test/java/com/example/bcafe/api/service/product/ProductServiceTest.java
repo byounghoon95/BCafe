@@ -1,19 +1,16 @@
 package com.example.bcafe.api.service.product;
 
-import com.example.bcafe.api.repository.product.ProductRepository;
+import com.example.bcafe.CommonServiceTest;
 import com.example.bcafe.api.service.product.request.ProductCreateServiceRequest;
 import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import com.example.bcafe.api.service.product.response.ProductResponse;
+import com.example.bcafe.api.service.product.response.ProductUpdateResponse;
 import com.example.bcafe.entity.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -21,31 +18,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-@Transactional
-@ActiveProfiles("test")
-@SpringBootTest
-class ProductServiceTest {
-
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    private Product createProduct(String productCode, String name, int price) {
-        return Product.builder()
-                .productCode(productCode)
-                .name(name)
-                .price(price)
-                .build();
-    }
-
-    private void createProducts() {
-        Product product1 = createProduct("P00001", "아메리카노", 4000);
-        Product product2 = createProduct("P00002", "카페라떼", 6000);
-        Product product3 = createProduct("P00003", "녹차라떼", 6400);
-        productRepository.saveAll(List.of(product1,product2,product3));
-    }
+class ProductServiceTest extends CommonServiceTest {
 
     @DisplayName("신규 상품을 등록한다. 상품코드는 가장 최근 상품의 상품번호에서 1 증가한 값이다.")
     @Test
@@ -124,20 +97,21 @@ class ProductServiceTest {
     @Test
     void update_product() {
         // given
-        createProducts();
+        setUp();
         ProductUpdateServiceRequest serviceRequest = ProductUpdateServiceRequest.builder()
                 .name("아메리카노1")
                 .price(8000)
+                .quantity(8)
                 .build();
 
         // when
-        ProductResponse response = productService.updateProduct("P00001", serviceRequest);
+        ProductUpdateResponse response = productService.updateProduct("P00001", serviceRequest);
 
         //then
         assertThat(response).isNotNull();
         assertThat(response.getProductCode()).isEqualTo("P00001");
         assertThat(response.getName()).isEqualTo("아메리카노1");
         assertThat(response.getPrice()).isEqualTo(8000);
+        assertThat(response.getQuantity()).isEqualTo(8);
     }
-
 }
