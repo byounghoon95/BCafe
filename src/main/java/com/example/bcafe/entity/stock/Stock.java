@@ -20,6 +20,7 @@ public class Stock extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "product_code", unique = true)
     private String productCode;
 
     private int quantity;

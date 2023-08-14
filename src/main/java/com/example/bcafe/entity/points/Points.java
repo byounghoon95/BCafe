@@ -1,5 +1,6 @@
 package com.example.bcafe.entity.points;
 
+import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Points {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Column(name = "amount")
@@ -30,6 +32,10 @@ public class Points {
     @Builder
     public Points(String phoneNumber, int amount) {
         this.phoneNumber = phoneNumber;
+        this.amount = amount;
+    }
+
+    public void updatePoints(int amount) {
         this.amount = amount;
     }
 }

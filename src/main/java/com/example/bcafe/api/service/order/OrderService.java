@@ -2,17 +2,20 @@ package com.example.bcafe.api.service.order;
 
 import com.example.bcafe.api.repository.member.MemberRepository;
 import com.example.bcafe.api.repository.order.OrderRepository;
+import com.example.bcafe.api.repository.points.PointsRepository;
 import com.example.bcafe.api.repository.product.ProductRepository;
 import com.example.bcafe.api.repository.stock.StockRepository;
 import com.example.bcafe.api.service.order.request.OrderCreateServiceRequest;
 import com.example.bcafe.api.service.order.response.OrderResponse;
 import com.example.bcafe.entity.member.Member;
 import com.example.bcafe.entity.order.Order;
+import com.example.bcafe.entity.points.Points;
 import com.example.bcafe.entity.product.Product;
 import com.example.bcafe.entity.stock.Stock;
 import com.example.bcafe.enums.CodeEnum;
 import com.example.bcafe.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
+    private final PointsRepository pointsRepository;
 
     @Transactional
     public OrderResponse createOrder(OrderCreateServiceRequest request, LocalDateTime registeredDateTime) {
@@ -43,6 +47,8 @@ public class OrderService {
         deductProductStockQuantities(products);
 
         Order order = Order.create(products, member, registeredDateTime);
+
+        plusPoints(order,member);
         return OrderResponse.of(orderRepository.save(order));
     }
 
@@ -85,9 +91,16 @@ public class OrderService {
                 .collect(Collectors.toMap(Stock::getProductCode, s -> s));
     }
 
-
     private Map<String, Long> countingMapBy(List<String> stockProductCodes) {
         return stockProductCodes.stream()
                 .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
+    }
+
+    private void plusPoints(Order order, Member member) {
+        if (!member.getPhoneNumber().equals("000-0000-0000")) {
+            Points points = pointsRepository.findByPhoneNumber(member.getPhoneNumber()).orElseThrow(() -> new CustomException(CodeEnum.POINTS_NOTFOUND));
+            int plusAmount = points.getAmount() + (int) (order.getTotalPrice() * 0.03);
+            points.updatePoints(plusAmount);
+        }
     }
 }
