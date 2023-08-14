@@ -29,7 +29,7 @@ class ProductRepositoryTest {
     private void createProducts() {
         Product product1 = createProduct("P00001",  "아메리카노", 4000);
         Product product2 = createProduct("P00002",  "카페라떼", 6000);
-        Product product3 = createProduct("P00003",  "녹차라떼", 6400);
+        Product product3 = createProduct("P00003",  "녹차라떼", 7000);
         productRepository.saveAll(List.of(product1,product2,product3));
     }
 
