@@ -1,6 +1,7 @@
 package com.example.bcafe.api.service.member.request;
 
 import com.example.bcafe.entity.member.Member;
+import com.example.bcafe.entity.points.Points;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,13 @@ public class MemberCreateServiceRequest {
                 .phoneNumber(phoneNumber)
                 .name(name)
                 .age(age)
+                .build();
+    }
+
+    public Points toPointsEntity() {
+        return Points.builder()
+                .phoneNumber(phoneNumber)
+                .amount(0)
                 .build();
     }
 }

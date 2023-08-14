@@ -2,6 +2,7 @@ package com.example.bcafe.entity.member;
 
 import com.example.bcafe.entity.BaseEntity;
 import com.example.bcafe.entity.order.Order;
+import com.example.bcafe.entity.points.Points;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
