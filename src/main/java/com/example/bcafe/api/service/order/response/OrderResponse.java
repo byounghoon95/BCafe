@@ -19,15 +19,15 @@ public class OrderResponse {
     private int totalPrice;
     private LocalDateTime registeredDateTime;
     private List<ProductResponse> products;
-    private Member member;
+    private String phoneNumber;
 
     @Builder
-    private OrderResponse(Long id, int totalPrice, LocalDateTime registeredDateTime, List<ProductResponse> products, Member member) {
+    private OrderResponse(Long id, int totalPrice, LocalDateTime registeredDateTime, List<ProductResponse> products, String phoneNumber) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.registeredDateTime = registeredDateTime;
         this.products = products;
-        this.member = member;
+        this.phoneNumber = phoneNumber;
     }
 
     public static OrderResponse of(Order order) {
@@ -39,7 +39,7 @@ public class OrderResponse {
                         .map(orderProduct -> ProductResponse.of(orderProduct.getProduct()))
                         .collect(Collectors.toList())
                 )
-                .member(order.getMember())
+                .phoneNumber(order.getMember().getPhoneNumber())
                 .build();
     }
 
