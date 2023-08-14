@@ -48,10 +48,17 @@ public abstract class CommonServiceTest {
                 .phoneNumber("010-1111-2222")
                 .build();
     }
-    protected OrderCreateServiceRequest orderCreateServiceRequest() {
+    protected OrderCreateServiceRequest orderCreateServiceMemberRequest() {
         return OrderCreateServiceRequest.builder()
                 .productCodes(List.of("P00001", "P00002"))
                 .phoneNumber("010-1111-2222")
+                .build();
+    }
+
+    protected OrderCreateServiceRequest orderCreateServiceNotMemberRequest() {
+        return OrderCreateServiceRequest.builder()
+                .productCodes(List.of("P00001", "P00002"))
+                .phoneNumber("000-0000-0000")
                 .build();
     }
 
@@ -66,7 +73,7 @@ public abstract class CommonServiceTest {
     protected void createProducts() {
         Product product1 = createProduct("P00001", "아메리카노", 4000);
         Product product2 = createProduct("P00002", "카페라떼", 6000);
-        Product product3 = createProduct("P00003", "녹차라떼", 6400);
+        Product product3 = createProduct("P00003", "녹차라떼", 7000);
         productRepository.saveAll(List.of(product1,product2,product3));
     }
 
@@ -87,7 +94,7 @@ public abstract class CommonServiceTest {
     protected void setUp() {
         Product product1 = createProduct("P00001", "아메리카노", 4000);
         Product product2 = createProduct("P00002","카페라떼",6000);
-        Product product3 = createProduct("P00003", "녹차라떼", 6400);
+        Product product3 = createProduct("P00003", "녹차라떼", 7000);
         productRepository.saveAll(List.of(product1, product2, product3));
 
         Stock stock1 = createStock("P00001", 10);
@@ -96,6 +103,7 @@ public abstract class CommonServiceTest {
         stockRepository.saveAll(List.of(stock1, stock2, stock3));
 
         Member member = createMember("010-1111-2222", "이병훈", 29);
-        memberRepository.save(member);
+        Member notMember = createMember("000-0000-0000", "비회원", 1);
+        memberRepository.saveAll(List.of(member,notMember));
     }
 }
