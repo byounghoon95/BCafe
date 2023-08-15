@@ -1,6 +1,5 @@
 package com.example.bcafe.entity.points;
 
-import com.example.bcafe.api.service.product.request.ProductUpdateServiceRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
