@@ -3,6 +3,7 @@ package com.example.bcafe.api.service.order;
 import com.example.bcafe.CommonServiceTest;
 import com.example.bcafe.api.service.order.request.OrderCreateServiceRequest;
 import com.example.bcafe.api.service.order.response.OrderResponse;
+import com.example.bcafe.entity.points.Points;
 import com.example.bcafe.entity.stock.Stock;
 import com.example.bcafe.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
@@ -206,5 +207,22 @@ class OrderServiceTest extends CommonServiceTest {
                         tuple("P00002", 2),
                         tuple("P00003", 4)
                 );
+    }
+
+    @DisplayName("회원인 경우 주문코드 리스트를 받아 주문을 생성하면 3%를 적립한다")
+    @Test
+    void create_order_with_points() {
+        // given
+        setUp();
+        LocalDateTime registeredDateTime = LocalDateTime.now();
+        OrderCreateServiceRequest request = orderCreateServiceMemberRequest();
+        double discountRate = 0.03;
+
+        // when
+        OrderResponse orderResponse = orderService.createOrder(request, registeredDateTime);
+        Points points = pointsRepository.findByPhoneNumber(request.getPhoneNumber()).get();
+
+        // then
+        assertThat(points.getAmount()).isEqualTo((int)(orderResponse.getTotalPrice() * discountRate));
     }
 }
