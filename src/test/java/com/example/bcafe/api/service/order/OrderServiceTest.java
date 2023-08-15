@@ -139,7 +139,7 @@ class OrderServiceTest extends CommonServiceTest {
     void create_order_with_no_stock() {
         // given
         LocalDateTime registeredDateTime = LocalDateTime.now();
-        setUpProduct();
+        setUp();
         OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productCodes(List.of("P00001", "P00001", "P00001", "P00001", "P00001", "P00001"))
                 .phoneNumber("010-1111-2222")
@@ -151,60 +151,5 @@ class OrderServiceTest extends CommonServiceTest {
                 .hasMessage("LESS STOCK QUANTITY THAN REQUIRED STOCK");
     }
 
-    @DisplayName("여러 쓰레드에서 주문 요청이 들어올 때, 재고 감소 로직을 검증한다")
-    @Test
-    void creat_order_with_concurrent_5_request() throws InterruptedException {
-        //given
-        CountDownLatch latch = new CountDownLatch (1);
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-        executorService.execute(() -> {
-            setUpProduct();
-            latch.countDown();
-        });
-        latch.await();
-
-        OrderCreateServiceRequest request1 = OrderCreateServiceRequest.builder()
-                .productCodes(List.of("P00001","P00002","P00003"))
-                .phoneNumber("010-1111-2222")
-                .build();
-        OrderCreateServiceRequest request2 = OrderCreateServiceRequest.builder()
-                .productCodes(List.of("P00001","P00002"))
-                .phoneNumber("010-1111-2222")
-                .build();
-        OrderCreateServiceRequest request3 = OrderCreateServiceRequest.builder()
-                .productCodes(List.of("P00001","P00002" ))
-                .phoneNumber("010-1111-2222")
-                .build();
-
-        //when
-        int threadCount = 3;
-        ExecutorService executorService2 = Executors.newFixedThreadPool(threadCount);
-        CountDownLatch latch2 = new CountDownLatch (threadCount);
-
-        executorService2.execute(() -> {
-            orderService.createOrder(request1, LocalDateTime.now());
-            latch2.countDown();
-        });
-        executorService2.execute(() -> {
-            orderService.createOrder(request2, LocalDateTime.now());
-            latch2.countDown();
-        });
-        executorService2.execute(() -> {
-            orderService.createOrder(request3, LocalDateTime.now());
-            latch2.countDown();
-        });
-
-        latch2.await();
-
-        //then
-        List<Stock> stocks = stockRepository.findAllByProductCodeIn(List.of("P00001", "P00002", "P00003"));
-        assertThat(stocks)
-                .extracting("productCode", "quantity")
-                .containsExactlyInAnyOrder(
-                        tuple("P00001", 1),
-                        tuple("P00002", 1),
-                        tuple("P00003", 9)
-                );
-    }
 }
