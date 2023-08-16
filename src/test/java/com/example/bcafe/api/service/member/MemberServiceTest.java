@@ -32,6 +32,7 @@ class MemberServiceTest extends CommonServiceTest {
     @Test
     void delete_member() {
         //given
+        setUpMember();
         MemberDeleteServiceRequest request = memberDeleteServiceRequest();
 
         //when
