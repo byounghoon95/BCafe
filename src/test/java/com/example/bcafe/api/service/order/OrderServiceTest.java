@@ -8,6 +8,7 @@ import com.example.bcafe.entity.stock.Stock;
 import com.example.bcafe.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -152,6 +153,7 @@ class OrderServiceTest extends CommonServiceTest {
                 .hasMessage("LESS STOCK QUANTITY THAN REQUIRED STOCK");
     }
 
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     @DisplayName("여러 쓰레드에서 주문 요청이 들어올 때, 재고 감소 로직을 검증한다")
     @Test
     void creat_order_with_concurrent_5_request() throws InterruptedException {
