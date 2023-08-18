@@ -38,7 +38,7 @@ public class MemberService {
 
         Member findMember = memberRepository.findByPhoneNumber(request.getPhoneNumber()).orElseThrow(() -> new CustomException(CodeEnum.MEMBER_NOTFOUND));
 
-        memberRepository.deleteByPhoneNumber(request.getPhoneNumber());
+        findMember.deleteMember();
         pointsRepository.deleteByPhoneNumber(request.getPhoneNumber());
 
         return MemberDeleteResponse.of(findMember);
