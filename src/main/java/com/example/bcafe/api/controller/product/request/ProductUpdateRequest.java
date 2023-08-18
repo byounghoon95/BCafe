@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "상품 수정 DTO")
+@ApiModel(value = "상품 수정 요청 DTO")
 @Getter
 @NoArgsConstructor
 public class ProductUpdateRequest {

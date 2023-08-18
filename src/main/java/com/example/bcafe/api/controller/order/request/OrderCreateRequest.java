@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@ApiModel(value = "주문 생성 DTO")
+@ApiModel(value = "주문 생성 요청 DTO")
 @Getter
 @NoArgsConstructor
 public class OrderCreateRequest {

@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
-@ApiModel(value = "회원 삭제 DTO")
+@ApiModel(value = "회원 삭제 요청 DTO")
 @Getter
 @NoArgsConstructor
 public class MemberDeleteRequest {
