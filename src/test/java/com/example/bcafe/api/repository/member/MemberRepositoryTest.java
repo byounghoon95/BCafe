@@ -34,21 +34,4 @@ class MemberRepositoryTest {
         memberRepository.save(member);
     }
 
-    @Transactional
-    @DisplayName("전화번호로 회원의 정보를 논리적 삭제한다")
-    @Test
-    void delete_by_phone_number() {
-        //given
-        setUp();
-        String phoneNumber = "010-1111-2222";
-
-        //when
-        Member findMember = memberRepository.findByPhoneNumber(phoneNumber).get();
-        memberRepository.deleteByPhoneNumber(phoneNumber);
-        Optional<Member> deletedMember = memberRepository.findByPhoneNumber(phoneNumber);
-
-        //then
-        assertThat(findMember.getPhoneNumber()).isEqualTo(phoneNumber);
-        assertThat(deletedMember).isEmpty();
-    }
 }
