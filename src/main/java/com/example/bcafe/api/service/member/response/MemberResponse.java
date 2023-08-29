@@ -1,15 +1,25 @@
 package com.example.bcafe.api.service.member.response;
 
 import com.example.bcafe.entity.member.Member;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+@ApiModel(value = "회원 응답 DTO")
 @Getter
 public class MemberResponse {
 
+    @ApiModelProperty(value = "회원 아이디", notes = "회원 아이디")
     private Long id;
+
+    @ApiModelProperty(value = "회원 핸드폰 번호", notes = "회원 핸드폰 번호")
     private String phoneNumber;
+
+    @ApiModelProperty(value = "회원 이름", notes = "회원 이름")
     private String name;
+
+    @ApiModelProperty(value = "회원 나이", notes = "회원 나이")
     private int age;
 
     @Builder

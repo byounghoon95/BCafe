@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@ApiModel(value = "회원 등록 DTO")
+@ApiModel(value = "회원 등록 요청 DTO")
 @Getter
 @NoArgsConstructor
 public class MemberCreateRequest {

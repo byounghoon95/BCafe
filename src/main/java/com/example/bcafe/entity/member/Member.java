@@ -46,4 +46,8 @@ public class Member extends BaseEntity {
         this.name = name;
         this.age = age;
     }
+
+    public void deleteMember() {
+        this.isDeleted = true;
+    }
 }

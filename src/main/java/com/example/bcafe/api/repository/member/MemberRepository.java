@@ -13,7 +13,4 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query(value = "SELECT m FROM Member m WHERE m.phoneNumber = :phoneNumber AND m.isDeleted = false")
     Optional<Member> findByPhoneNumber(String phoneNumber);
 
-    @Modifying
-    @Query(value = "UPDATE Member m SET m.isDeleted = true WHERE m.phoneNumber = :phoneNumber")
-    void deleteByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 }
