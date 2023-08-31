@@ -1,4 +1,4 @@
-name: Build and Deploy to EC2
+name: Java CI with Gradle
 
 on:
   push:
@@ -6,20 +6,46 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: read
+
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Pemission
+      run: chmod +x ./gradlew
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      with:
+        arguments: build
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+    - name: Make Zip File
+      run: zip -qq -r ./bcafa.zip .
+      shell: bash
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-        shell: bash
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ap-northeast-2
 
-      - name: Build and Test
-        run: ./gradlew build test
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./bcafe.zip s3://bcafe-cicd-bucket/BCafe/bcafe.zip
+
+    - name: Code Deploy To EC2 instance
+      run: aws deploy create-deployment
+        --application-name bcafe-cicd
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name bcafe-cicd-group
+        --s3-location bucket=bcafe-cicd-bucket,bundleType=zip,key=bcafe/bcafe.zip
+
