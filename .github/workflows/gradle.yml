@@ -44,7 +44,7 @@ jobs:
 
     # 압축파일 형태로 전달
     - name: Make zip file
-      run: zip -r -qq -j ./mybcafe.zip ./deploy
+      run: zip -r -qq -j ./BCafe.zip ./deploy
 
     # S3 Bucket으로 copy
     - name: Deliver to AWS S3
@@ -55,5 +55,6 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \ 
-        ./mybcafe s3://mybcafe/
+        ./BCafe s3://bmycafe/
+
 
