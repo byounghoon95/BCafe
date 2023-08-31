@@ -29,7 +29,7 @@ jobs:
         arguments: build
 
     - name: Make Zip File
-      run: zip -qq -r ./bcafa.zip .
+      run: zip -qq -r ./bcafe.zip .
       shell: bash
 
     - name: Configure AWS credentials
